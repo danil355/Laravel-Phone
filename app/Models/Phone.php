@@ -10,6 +10,11 @@ class Phone extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'brand', 'color', 'price'
+        'title', 'content', 'color', 'price'
     ];
+
+
+    function user() {
+        return $this->belongsTo(User::class);
+    }
 }

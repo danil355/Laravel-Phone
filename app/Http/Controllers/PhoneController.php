@@ -4,82 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Phone;
 use Illuminate\Http\Request;
+use App\Http\Requests\PhoneFormRequest;
 
 class PhoneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $phones = Phone::query()
+            ->latest()
+            ->get();
+
+        return view('phones.index', [
+            'phones' => $phones
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('phones.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(PhoneFormRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $phone = Phone::query()
+            ->create($data);
+        return redirect()->route('phones.show', $phone);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Phone  $phone
-     * @return \Illuminate\Http\Response
-     */
     public function show(Phone $phone)
     {
-        //
+        return view('phones.show', [
+            'phone' => $phone
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Phone  $phone
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Phone $phone)
     {
-        //
+        return view('phones.form', [
+            'phone  ' => $phone
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Phone  $phone
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Phone $phone)
+    public function update(PhoneFormRequest $request, Phone $phone)
     {
-        //
+        $data = $request->validated();
+
+        $phone->update($data);
+        return redirect()->route('phones.show', $phone);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Phone  $phone
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Phone $phone)
     {
-        //
+        $phone->delete();
+        return redirect()->route('phones.index');
     }
 }
