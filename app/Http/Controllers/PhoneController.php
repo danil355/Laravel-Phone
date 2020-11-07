@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostFormRequest;
 use App\Models\Phone;
 use App\Http\Requests\PhoneFormRequest;
-use App\Models\Post;
 use App\Models\User;
 
 class PhoneController extends Controller
