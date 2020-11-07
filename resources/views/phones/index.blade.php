@@ -1,5 +1,4 @@
 @extends('layouts.main')
-{{--Вывод всех записей постов--}}
 
 @section('content')
     <h1>Телефоны</h1>
