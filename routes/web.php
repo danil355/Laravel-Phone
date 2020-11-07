@@ -5,4 +5,14 @@ use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SiteController::class, 'index'])->name('index');
-Route::resource('phones', PhoneController::class)->only('index','show');
+Route::middleware('auth')
+    ->group(function () {
+        // Тут проверка на авторизацию
+
+        Route::resource('phones', PhoneController::class)
+            ->except('index', 'show');
+
+    });
+
+Route::resource('phones', PhoneController::class)
+    ->only('index', 'show');

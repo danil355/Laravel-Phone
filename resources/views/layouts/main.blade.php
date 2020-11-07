@@ -13,18 +13,52 @@
 </head>
 <body>
 
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
 
-    <ul>
-        <li>
-            <a href="{{ route('index') }}">Главная</a>
-        </li>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('index') }}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('phones.index') }}">Телефоны</a>
+                </li>
+            </ul>
 
-        <li>
-            <a href="{{ route('phones.index') }}">Телефоны</a>
-        </li>
+            <div class="navbar-nav ml-auto">
 
-    </ul>
+                @if( auth()->check() )
+
+                    <div class="nav-item">
+                        {{ auth()->user()->name }}
+                    </div>
+                    <div class="nav-item">
+                        <form method="post" action="{{ route('logout') }}"> @csrf
+                            <button class="btn btn-outline-danger btn-sm">Выйти</button>
+                        </form>
+                    </div>
+                @else
+
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                    </div>
+
+                @endif
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
 
     @yield('content')
 </div>
