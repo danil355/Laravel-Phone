@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostFormRequest;
 use App\Models\Phone;
 use App\Http\Requests\PhoneFormRequest;
-use App\Models\Post;
 use App\Models\User;
 
 class PhoneController extends Controller
@@ -40,13 +38,15 @@ class PhoneController extends Controller
         $phone = $user->phones()
             ->create($data);
 
+        $this->uploadImage($request, $phone);
 
         return redirect()->route('phones.show', $phone);
     }
 
     public function show(Phone $phone) {
         return view('phones.show', [
-            'phone' => $phone
+            'phone' => $phone,
+            'comments' => $phone->comments()->latest()->get()
         ]);
     }
 
@@ -64,12 +64,30 @@ class PhoneController extends Controller
 
         $phone->update($data);
 
+        $this->uploadImage($request, $phone);
+
         return redirect()->route('phones.show', $phone);
     }
 
     public function destroy(Phone $phone) {
         $this->authorize('delete', $phone);
+        $phone->deleteImage();
         $phone->delete();
         return redirect()->route('phones.index');
+    }
+
+    protected function uploadImage(PhoneFormRequest $request, Phone $phone) {
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('public/images');
+
+            $phone->deleteImage();
+
+            $phone->update([
+                'image_path' => $path
+            ]);
+
+        }
+
     }
 }

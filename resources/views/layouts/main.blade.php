@@ -28,6 +28,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('phones.index') }}">Телефоны</a>
                 </li>
+
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user.favorites') }}">Избранное</a>
+                    </li>
+                @endauth
+
             </ul>
 
             <div class="navbar-nav ml-auto">

@@ -8,12 +8,20 @@ $phone = $phone ?? null;
 
     @include('components.form-errors')
 
-    <form action="{{ $phone ? route('phones.update', $phone) : route('phones.store') }}" method="post">
+    <form enctype="multipart/form-data" action="{{ $phone ? route('phones.update', $phone) : route('phones.store') }}" method="post">
         @csrf
 
         @if($phone)
             @method('put')
         @endif
+
+        <div>
+            <label for="image">Изображение</label>
+        </div>
+
+        <div>
+            <input type="file" name="image" id="image" accept="image/*" />
+        </div>
 
         <div>
             <label for="title">Название</label>

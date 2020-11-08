@@ -46,4 +46,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Phone::class);
     }
+
+    function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
+    function favorites() {
+        return $this->belongsToMany(Phone::class, Favorite::class);
+    }
+
+
+    function isFavorite(Phone $phone) {
+        return $this->favorites()
+            ->where('phone_id', $phone->id)
+            ->exists();
+    }
 }

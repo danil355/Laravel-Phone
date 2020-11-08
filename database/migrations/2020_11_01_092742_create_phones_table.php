@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePhonesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('phones', function (Blueprint $table) {
@@ -19,6 +14,10 @@ class CreatePhonesTable extends Migration
             $table->foreignIdFor(User::class)
                 ->constrained()
                 ->cascadeOnDelete();
+
+            $table->string('image_path')
+                ->nullable();
+
             $table->string('title');
             $table->text('content');;
             $table->text('color');
@@ -27,11 +26,6 @@ class CreatePhonesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('phones');
